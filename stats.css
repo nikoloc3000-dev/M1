@@ -1,0 +1,13 @@
+.big{font-size:96px;line-height:.95;font-weight:600;margin:6px 0 0}
+.big small{font-size:34px;color:var(--muted);font-weight:500;margin-left:8px}
+.lead{margin:6px 0 22px;color:var(--muted)}
+.strip{display:flex;align-items:flex-end;gap:3px;height:64px;margin-bottom:30px}
+.strip i{flex:1;background:var(--cell);height:12px;border-radius:2px}
+.strip i.on{height:100%;background:var(--ink)}
+.log{display:flex;gap:14px;padding:14px 0 0}
+.log .bar{width:5px;border-radius:2px;background:var(--cell);flex:none}
+.log .num{font-size:30px;line-height:1;font-weight:600;width:38px;flex:none}
+.log p{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.strip i.on{transform-origin:bottom;animation:grow .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*14ms)}
+@keyframes grow{from{transform:scaleY(.12);opacity:0}}
+.log{animation:fin .35s ease-out both;animation-delay:calc(var(--i)*50ms + 250ms)}

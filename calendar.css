@@ -1,0 +1,13 @@
+.week,.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.week{margin-bottom:6px;font-size:12px;color:var(--muted)}
+.week span{padding-left:7px}
+.cell{aspect-ratio:3/4;border-radius:3px;background:var(--cell);text-align:left;padding:7px 0 0 7px;font-size:21px;font-weight:500;line-height:1;color:var(--muted);position:relative}
+.cell.empty{visibility:hidden}
+.cell.has{font-weight:600}
+.cell.tr::after{content:"";position:absolute;left:7px;bottom:7px;width:18px;height:3px;background:currentColor}
+.cell.today{box-shadow:inset 0 0 0 2px var(--ink)}
+.hint{color:var(--muted);font-size:13px;margin:16px 0 0}
+.cell{display:flex;align-items:flex-start;font-variant-numeric:lining-nums;transition:background .25s,color .25s,transform .15s}
+.cell:active{transform:scale(.94)}
+.cell.pop{animation:pop .4s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{from{transform:scale(.8);opacity:.5}}
