@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тренировки</title>
+<meta name="theme-color" content="#ECEDEE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F10" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Onest:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECEDEE;--ink:#101214;--muted:#70757A;--cell:#E0E1E3;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E0F10;--ink:#F1F1EF;--muted:#8A8E92;--cell:#1A1C1E;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E0F10;--ink:#F1F1EF;--muted:#8A8E92;--cell:#1A1C1E;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+main{height:100%;overflow-y:auto;padding:18px 14px 32px;max-width:520px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.d,.tabs button,.cell,.big,.go,.title,.num{font-family:"Oswald","Arial Narrow",Impact,sans-serif}
+.tabs{display:flex;gap:22px;margin-bottom:22px}
+.tabs button{font-size:26px;font-weight:600;color:var(--muted)}
+.tabs button[aria-current="true"]{color:var(--ink)}
+.title{font-size:54px;line-height:1;font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
+.mrow{display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px;color:var(--muted)}
+.mrow button{color:var(--muted);padding:6px 0;min-height:36px}
+.week,.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.week{margin-bottom:6px;font-size:12px;color:var(--muted)}
+.week span{padding-left:7px}
+.cell{aspect-ratio:3/4;border-radius:3px;background:var(--cell);text-align:left;padding:7px 0 0 7px;font-size:21px;font-weight:500;line-height:1;color:var(--muted);position:relative}
+.cell.empty{visibility:hidden}
+.cell.has{font-weight:600}
+.cell.tr::after{content:"";position:absolute;left:7px;bottom:7px;width:18px;height:3px;background:currentColor}
+.cell.today{box-shadow:inset 0 0 0 2px var(--ink)}
+.hint{color:var(--muted);font-size:13px;margin:16px 0 0}
+.big{font-size:96px;line-height:.95;font-weight:600;margin:6px 0 0}
+.big small{font-size:34px;color:var(--muted);font-weight:500;margin-left:8px}
+.lead{margin:6px 0 22px;color:var(--muted)}
+.strip{display:flex;align-items:flex-end;gap:3px;height:64px;margin-bottom:30px}
+.strip i{flex:1;background:var(--cell);height:12px;border-radius:2px}
+.strip i.on{height:100%;background:var(--ink)}
+.log{display:flex;gap:14px;padding:14px 0 0}
+.log .bar{width:5px;border-radius:2px;background:var(--cell);flex:none}
+.log .num{font-size:30px;line-height:1;font-weight:600;width:38px;flex:none}
+.log p{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;z-index:5;opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
+.scrim.on{opacity:1;visibility:visible;transition:opacity .25s}
+.sheet{width:100%;max-width:520px;margin:0 auto;background:var(--bg);padding:22px 16px calc(16px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+.scrim.on .sheet{transform:none}
+.cell{display:flex;align-items:flex-start;font-variant-numeric:lining-nums;transition:background .25s,color .25s,transform .15s}
+.cell:active{transform:scale(.94)}
+.cell.pop{animation:pop .4s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{from{transform:scale(.8);opacity:.5}}
+.view.f{animation:fin .3s ease-out both}
+.view.l{animation:inl .3s cubic-bezier(.2,.8,.2,1) both}
+.view.r{animation:inr .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fin{from{opacity:0;transform:translateY(8px)}}
+@keyframes inl{from{opacity:0;transform:translateX(-20px)}}
+@keyframes inr{from{opacity:0;transform:translateX(20px)}}
+.strip i.on{transform-origin:bottom;animation:grow .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*14ms)}
+@keyframes grow{from{transform:scaleY(.12);opacity:0}}
+.log{animation:fin .35s ease-out both;animation-delay:calc(var(--i)*50ms + 250ms)}
+.tabs button,.mrow button{transition:color .2s,opacity .15s}
+.mrow button:active{opacity:.45}
+.sw button,.sw label{transition:box-shadow .15s,transform .15s}
+.sw button:active,.sw label:active{transform:scale(.92)}
+.tg i{transition:background .18s}
+.go{transition:transform .12s,opacity .12s}
+.go:active{transform:scale(.98);opacity:.9}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.sheet .title{font-size:40px;margin-bottom:16px}
+.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:18px}
+.sw button,.sw label{height:44px;border-radius:3px;background:var(--cell);position:relative;display:grid;place-items:center;color:var(--muted);font-size:18px}
+.sw .sel{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.sw input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.tg{display:flex;align-items:center;gap:12px;font-weight:500;margin-bottom:16px;min-height:40px}
+.tg i{width:24px;height:24px;border:2px solid var(--ink);border-radius:3px;display:block}
+.tg[aria-pressed="true"] i{background:var(--ink)}
+textarea{width:100%;min-height:96px;resize:vertical;border:0;border-radius:3px;background:var(--cell);color:var(--ink);font:inherit;padding:12px;margin-bottom:16px}
+.go{width:100%;height:54px;border-radius:3px;background:var(--ink);color:var(--bg);font-size:20px;font-weight:600;letter-spacing:.02em}
+.clr{display:block;margin:14px auto 0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;min-height:36px}
+</style>
+</head>
+<body>
+<main id="main"></main>
+<div class="scrim" id="scrim"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+var MONTHS=["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+var PALETTE=["#E4572E","#F2B705","#3FA34D","#2E86AB","#7B4B94","#E56399","#17BEBB","#8D6E63"];
+var data={};
+try{data=JSON.parse(localStorage.getItem("wk:v1")||"{}")}catch(e){data={}}
+function persist(){try{localStorage.setItem("wk:v1",JSON.stringify(data))}catch(e){}}
+var now=new Date(),view={y:now.getFullYear(),m:now.getMonth()},tab="cal",draft=null,editKey=null;
+var main=document.getElementById("main"),scrim=document.getElementById("scrim"),sheet=document.getElementById("sheet");
+function pad(n){return n<10?"0"+n:""+n}
+function key(y,m,d){return y+"-"+pad(m+1)+"-"+pad(d)}
+function ink(h){var n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;return (0.299*r+0.587*g+0.114*b)>150?"#111":"#fff"}
+function plural(n){var a=n%10,b=n%100;return (a==1&&b!=11)?"день":(a>=2&&a<=4&&(b<10||b>=20))?"дня":"дней"}
+function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e}
+function mname(d){return MONTHS[(view.m+d+12)%12]}
+function shift(d){anim=d<0?" l":" r";view.m+=d;if(view.m<0){view.m=11;view.y--}if(view.m>11){view.m=0;view.y++}render()}
+function topBar(){
+  var f=document.createDocumentFragment(),t=el("div","tabs"),a=el("button",null,"Календарь"),b=el("button",null,"Статистика");
+  a.setAttribute("aria-current",tab=="cal");b.setAttribute("aria-current",tab=="st");
+  a.onclick=function(){if(tab!="cal"){tab="cal";anim=" f";render()}};b.onclick=function(){if(tab!="st"){tab="st";anim=" f";render()}};t.append(a,b);
+  var h=el("h1","title",MONTHS[view.m]+" "+view.y),r=el("div","mrow"),p=el("button",null,mname(-1)),n=el("button",null,mname(1));
+  p.setAttribute("aria-label","Предыдущий месяц: "+mname(-1));n.setAttribute("aria-label","Следующий месяц: "+mname(1));
+  p.onclick=function(){shift(-1)};n.onclick=function(){shift(1)};r.append(p,n);f.append(t,h,r);return f;
+}
+function calendar(){
+  var f=document.createDocumentFragment();
+  var w=el("div","week");["пн","вт","ср","чт","пт","сб","вс"].forEach(function(d){w.append(el("span",null,d))});f.append(w);
+  var g=el("div","grid"),first=(new Date(view.y,view.m,1).getDay()+6)%7,days=new Date(view.y,view.m+1,0).getDate();
+  for(var i=0;i<first;i++)g.append(el("div","cell empty"));
+  for(var d=1;d<=days;d++){(function(d){
+    var r=data[key(view.y,view.m,d)],b=el("button","cell",d);
+    if(r&&r.c){b.classList.add("has");b.style.background=r.c;b.style.color=ink(r.c)}
+    if(r&&r.w)b.classList.add("tr");
+    if(key(view.y,view.m,d)==lastKey)b.classList.add("pop");
+    if(d==now.getDate()&&view.m==now.getMonth()&&view.y==now.getFullYear())b.classList.add("today");
+    b.setAttribute("aria-label",d+" "+mname(0).toLowerCase()+(r&&r.w?", тренировка была":""));
+    b.onclick=function(){openSheet(d)};g.append(b);
+  })(d)}
+  f.append(g,el("p","hint","Черта внизу дня: тренировка была."));return f;
+}
+function stats(){
+  var f=document.createDocumentFragment(),days=new Date(view.y,view.m+1,0).getDate(),cnt=0,notes=[],strip=el("div","strip");
+  for(var d=1;d<=days;d++){var r=data[key(view.y,view.m,d)],i=el("i");i.style.setProperty("--i",d);
+    if(r&&r.w){cnt++;i.className="on";if(r.c)i.style.background=r.c}
+    if(r&&r.n)notes.push([d,r]);strip.append(i)}
+  var big=el("div","big",cnt),num=big.firstChild;big.append(el("small",null,"из "+days));
+  if(!matchMedia("(prefers-reduced-motion:reduce)").matches){var t0=performance.now();(function tick(t){var p=Math.max(0,Math.min(1,(t-t0)/650));num.nodeValue=Math.round(cnt*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick)})(t0)}
+  f.append(big,el("p","lead",plural(cnt)+" с тренировкой"),strip);
+  if(!notes.length)f.append(el("p","hint","Заметок пока нет. Открой день в календаре и запиши, как всё прошло."));
+  notes.reverse().forEach(function(x){
+    var w=el("div","log"),bar=el("div","bar");w.style.setProperty("--i",notes.indexOf(x));if(x[1].c)bar.style.background=x[1].c;
+    w.append(bar,el("div","num",x[0]),el("p",null,x[1].n));f.append(w);
+  });
+  return f;
+}
+var anim=" f",lastKey="";
+function render(){var v=el("div","view"+anim);v.append(tab=="cal"?calendar():stats());main.replaceChildren(topBar(),v);anim="";lastKey=""}
+function openSheet(d){
+  editKey=key(view.y,view.m,d);var r=data[editKey]||{};draft={c:r.c||"",w:!!r.w,n:r.n||""};
+  sheet.replaceChildren(el("h2","title",d+" "+mname(0).toLowerCase()));
+  var sw=el("div","sw");
+  function mark(){Array.prototype.forEach.call(sw.children,function(b){b.classList.toggle("sel",(b.dataset.c||"")==draft.c&&b.tagName=="BUTTON")})}
+  var none=el("button",null,"—");none.dataset.c="";none.setAttribute("aria-label","Без цвета");none.onclick=function(){draft.c="";mark()};sw.append(none);
+  PALETTE.forEach(function(c){var b=el("button");b.style.background=c;b.dataset.c=c;b.setAttribute("aria-label","Цвет "+c);b.onclick=function(){draft.c=c;mark()};sw.append(b)});
+  var cu=el("label",null,"+"),inp=el("input");inp.type="color";inp.value=draft.c||"#E4572E";inp.oninput=function(){draft.c=inp.value.toUpperCase();mark()};
+  cu.append(inp);cu.setAttribute("aria-label","Свой цвет");sw.append(cu);sheet.append(sw);mark();
+  var tg=el("button","tg");tg.append(el("i"),el("span",null,"Тренировка была"));tg.setAttribute("aria-pressed",draft.w);
+  tg.onclick=function(){draft.w=!draft.w;tg.setAttribute("aria-pressed",draft.w)};sheet.append(tg);
+  var ta=el("textarea");ta.placeholder="Заметка: что делал, как прошло";ta.value=draft.n;ta.oninput=function(){draft.n=ta.value};sheet.append(ta);
+  var sv=el("button","go","Сохранить"),clr=el("button","clr","Очистить день");
+  sv.onclick=function(){var n=draft.n.trim();if(!draft.c&&!draft.w&&!n)delete data[editKey];else data[editKey]={c:draft.c,w:draft.w,n:n};lastKey=editKey;persist();closeSheet()};
+  clr.onclick=function(){delete data[editKey];persist();closeSheet()};
+  sheet.append(sv,clr);scrim.classList.add("on");
+}
+function closeSheet(){scrim.classList.remove("on");render()}
+scrim.addEventListener("click",function(e){if(e.target===scrim)closeSheet()});
+render();
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+</script>
+</body>
+</html>
