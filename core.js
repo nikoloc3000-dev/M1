@@ -9,12 +9,13 @@ function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=
 function mname(d){return MONTHS[(view.m+d+12)%12]}
 function shift(d){anim=d<0?" l":" r";view.m+=d;if(view.m<0){view.m=11;view.y--}if(view.m>11){view.m=0;view.y++}render()}
 function topBar(){
-  var f=document.createDocumentFragment(),t=el("div","tabs"),a=el("button",null,"Календарь"),b=el("button",null,"Статистика");
-  a.setAttribute("aria-current",tab=="cal");b.setAttribute("aria-current",tab=="st");
-  a.onclick=function(){if(tab!="cal"){tab="cal";anim=" f";render()}};b.onclick=function(){if(tab!="st"){tab="st";anim=" f";render()}};t.append(a,b);
+  var f=document.createDocumentFragment(),t=el("div","tabs");
+  [["cal","Календарь"],["st","Статистика"],["pr","Профиль"]].forEach(function(x){var b=el("button",null,x[1]);b.setAttribute("aria-current",tab==x[0]);b.onclick=function(){if(tab!=x[0]){tab=x[0];anim=" f";render()}};t.append(b)});
+  f.append(t);
+  if(tab=="pr")return f;
   var h=el("h1","title",MONTHS[view.m]+" "+view.y),r=el("div","mrow"),p=el("button",null,mname(-1)),n=el("button",null,mname(1));
   p.setAttribute("aria-label","Предыдущий месяц: "+mname(-1));n.setAttribute("aria-label","Следующий месяц: "+mname(1));
-  p.onclick=function(){shift(-1)};n.onclick=function(){shift(1)};r.append(p,n);f.append(t,h,r);return f;
+  p.onclick=function(){shift(-1)};n.onclick=function(){shift(1)};r.append(p,n);f.append(h,r);return f;
 }
 var anim=" f",lastKey="";
-function render(){var v=el("div","view"+anim);v.append(tab=="cal"?calendar():stats());main.replaceChildren(topBar(),v);anim="";lastKey=""}
+function render(){var v=el("div","view"+anim);v.append(tab=="cal"?calendar():tab=="st"?stats():profileView());main.replaceChildren(topBar(),v);anim="";lastKey=""}

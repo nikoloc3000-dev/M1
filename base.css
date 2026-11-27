@@ -9,8 +9,8 @@ main{height:100%;overflow-y:auto;padding:18px 14px 32px;max-width:520px;margin:0
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .d,.tabs button,.cell,.big,.go,.title,.num{font-family:"Oswald","Arial Narrow",Impact,sans-serif}
-.tabs{display:flex;gap:22px;margin-bottom:22px}
-.tabs button{font-size:26px;font-weight:600;color:var(--muted)}
+.tabs{display:flex;gap:clamp(12px,4.4vw,22px);margin-bottom:22px}
+.tabs button{font-size:clamp(18px,5.6vw,26px);font-weight:600;color:var(--muted)}
 .tabs button[aria-current="true"]{color:var(--ink)}
 .title{font-size:54px;line-height:1;font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
 .mrow{display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px;color:var(--muted)}
