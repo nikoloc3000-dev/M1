@@ -4,10 +4,19 @@
 .strip{display:flex;align-items:flex-end;gap:3px;height:64px;margin-bottom:30px}
 .strip i{flex:1;background:var(--cell);height:12px;border-radius:2px}
 .strip i.on{height:100%;background:var(--ink)}
-.log{display:flex;gap:14px;padding:14px 0 0}
-.log .bar{width:5px;border-radius:2px;background:var(--cell);flex:none}
-.log .num{font-size:30px;line-height:1;font-weight:600;width:38px;flex:none}
-.log p{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.log{display:flex;gap:14px;align-items:flex-start;padding:14px 0 0}
+.tile{width:56px;height:72px;flex:none;border-radius:3px;background:var(--cell);color:var(--muted);font-family:"Oswald","Arial Narrow",Impact,sans-serif;font-size:24px;font-weight:600;line-height:1;padding:8px 0 0 8px;position:relative}
+.tile.tr::after{content:"";position:absolute;left:8px;bottom:8px;width:18px;height:3px;background:currentColor}
+.lbody{min-width:0}
+.ldate{font-size:13px;color:var(--muted);margin:2px 0 5px}
+.log p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 .strip i.on{transform-origin:bottom;animation:grow .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*14ms)}
 @keyframes grow{from{transform:scaleY(.12);opacity:0}}
 .log{animation:fin .35s ease-out both;animation-delay:calc(var(--i)*50ms + 250ms)}
+.xlist{margin:0 0 30px}
+.xr{margin-bottom:12px}
+.xl{display:flex;justify-content:space-between;margin-bottom:5px}
+.xl em{font-style:normal;font-family:"Oswald","Arial Narrow",Impact,sans-serif;font-weight:600}
+.xr i{display:block;height:6px;background:var(--ink);border-radius:2px}
+.xline{font-weight:500;margin-bottom:2px}
+.th{font-size:13px;color:var(--muted);margin:0 0 8px}

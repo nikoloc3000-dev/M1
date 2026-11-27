@@ -18,3 +18,14 @@
 textarea{width:100%;min-height:96px;resize:vertical;border:0;border-radius:3px;background:var(--cell);color:var(--ink);font:inherit;padding:12px;margin-bottom:16px}
 .go{width:100%;height:54px;border-radius:3px;background:var(--ink);color:var(--bg);font-size:20px;font-weight:600;letter-spacing:.02em}
 .clr{display:block;margin:14px auto 0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;min-height:36px}
+.sheet{max-height:92%;overflow-y:auto}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{min-height:38px;padding:0 14px;border-radius:3px;background:var(--cell);color:var(--muted);font-weight:500;transition:background .15s,color .15s}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.again{display:block;color:var(--muted);text-decoration:underline;text-underline-offset:3px;min-height:36px;margin-bottom:6px}
+.feel{display:flex;gap:6px;margin-bottom:14px}
+.feel .chip{flex:1;padding:0}
+.xrow{display:grid;grid-template-columns:1fr 60px 12px 60px 32px;gap:6px;align-items:center;margin-bottom:6px}
+.xrow input{min-width:0;width:100%;height:42px;border:0;border-radius:3px;background:var(--cell);color:var(--ink);font:inherit;padding:0 10px}
+.xrow span{color:var(--muted);text-align:center}
+.xrow button{height:42px;color:var(--muted);font-size:22px}
