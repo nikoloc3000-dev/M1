@@ -38,9 +38,14 @@ function importData(fi){
       var ks=Object.keys(o.days).filter(function(k){return /^\d{4}-\d{2}-\d{2}$/.test(k)&&o.days[k]&&typeof o.days[k]==="object"});
       if(!confirm("Загрузить копию? Записей: "+ks.length+". Совпадающие дни будут заменены."))msg="Загрузка отменена.";
       else{
-        ks.forEach(function(k){data[k]=o.days[k]});persist();
-        if(o.profile&&typeof o.profile==="object"){Object.keys(o.profile).forEach(function(k){profile[k]=o.profile[k]});persistProfile()}
-        anim="";render();msg="Загружено записей: "+ks.length+".";
+        var ok=0;ks.forEach(function(k){var dd=sanitizeDay(o.days[k]);if(dd){data[k]=dd;ok++}});persist();
+        if(o.profile&&typeof o.profile==="object"){
+          var sp=sanitizeProfile(o.profile),m={};
+          ["h","a","w"].forEach(function(k){if(sp[k]!=="")profile[k]=sp[k]});
+          (profile.wh||[]).concat(sp.wh).forEach(function(x){m[x.d]=x});profile.wh=Object.keys(m).sort().map(function(k){return m[k]});
+          persistProfile();
+        }
+        anim="";render();msg="Загружено записей: "+ok+".";
       }
     }catch(e){}
     noteText(msg);fi.value="";

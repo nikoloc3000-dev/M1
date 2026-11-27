@@ -20,15 +20,15 @@ function openSheet(d){
   var xs=el("div","exs");
   function xrow(x){var w=el("div","xrow"),n=el("input"),s=el("input"),r=el("input"),rm=el("button",null,"×");
     n.placeholder="Упражнение";n.setAttribute("list","exn");n.value=x.n;n.oninput=function(){x.n=n.value};
-    s.type="number";r.type="number";s.inputMode="numeric";r.inputMode="numeric";s.placeholder="подх.";r.placeholder="повт.";s.value=x.s||"";r.value=x.r||"";
-    s.oninput=function(){x.s=+s.value||0};r.oninput=function(){x.r=+r.value||0};
+    s.type="number";r.type="number";s.min="0";r.min="0";s.inputMode="numeric";r.inputMode="numeric";s.placeholder="подх.";r.placeholder="повт.";s.value=x.s||"";r.value=x.r||"";
+    s.oninput=function(){x.s=Math.max(0,Math.round(+s.value||0))};r.oninput=function(){x.r=Math.max(0,Math.round(+r.value||0))};
     rm.setAttribute("aria-label","Убрать упражнение");rm.onclick=function(){draft.ex.splice(draft.ex.indexOf(x),1);w.remove()};
     w.append(n,s,el("span",null,"×"),r,rm);xs.append(w)}
   draft.ex.forEach(xrow);sheet.append(dl,xs);
   var add=el("button","again","+ Упражнение");add.onclick=function(){var x={n:"",s:0,r:0};draft.ex.push(x);xrow(x)};sheet.append(add);
   var ta=el("textarea");ta.placeholder="Заметка (необязательно)";ta.value=draft.n;ta.oninput=function(){draft.n=ta.value};sheet.append(ta);
   var sv=el("button","go","Сохранить"),clr=el("button","clr","Очистить день");
-  sv.onclick=function(){var n=draft.n.trim(),ex=draft.ex.filter(function(x){return x.n.trim()}).map(function(x){return {n:x.n.trim(),s:x.s||0,r:x.r||0}});if(!draft.c&&!draft.w&&!n&&!draft.f&&!ex.length)delete data[editKey];else data[editKey]={c:draft.c,w:draft.w,n:n,f:draft.f,ex:ex};lastKey=editKey;persist();closeSheet()};
+  sv.onclick=function(){var n=draft.n.trim(),ex=draft.ex.filter(function(x){return x.n.trim()}).map(function(x){return {n:x.n.trim(),s:x.s||0,r:x.r||0}});if(!draft.c&&!draft.w&&!n&&!draft.f&&!ex.length)delete data[editKey];else data[editKey]=sanitizeDay({c:draft.c,w:draft.w,n:n,f:draft.f,ex:ex});lastKey=editKey;persist();closeSheet()};
   clr.onclick=function(){delete data[editKey];persist();closeSheet()};
   sheet.append(sv,clr);scrim.classList.add("on");
 }
