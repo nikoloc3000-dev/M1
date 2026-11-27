@@ -10,6 +10,7 @@ function stats(){
   var big=el("div","big",cnt),num=big.firstChild;big.append(el("small",null,"из "+days));
   if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)){var t0=performance.now();(function tick(t){var p=Math.max(0,Math.min(1,(t-t0)/650));num.nodeValue=Math.round(cnt*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick)})(t0)}
   f.append(big,el("p","lead",plural(cnt)+" с тренировкой"),strip);
+  if(typeof feelBlock==="function")f.append(feelBlock());
   var th=el("p","th","Сделано"),pc=el("div","chips"),box=el("div","xlist");
   function draw(){
     var td=new Date(),k0=key(td.getFullYear(),td.getMonth(),td.getDate()),w0=new Date(td.getFullYear(),td.getMonth(),td.getDate()-6),from,to;

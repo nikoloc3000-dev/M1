@@ -1,0 +1,7 @@
+.fnone{margin:-14px 0 28px}
+.fshare{display:flex;gap:3px;height:16px;margin-bottom:10px}
+.fshare i{border-radius:2px;min-width:6px}
+.fleg2{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted);margin-bottom:10px}
+.fleg2 span{display:flex;align-items:center;gap:6px}
+.fleg2 span i{width:10px;height:10px;border-radius:2px;display:block}
+.fsum{margin:0 0 30px}
