@@ -1,0 +1,5 @@
+.toast{position:fixed;left:14px;right:14px;bottom:calc(18px + env(safe-area-inset-bottom,0px));max-width:492px;margin:0 auto;background:var(--ink);color:var(--bg);padding:14px 16px;border-radius:3px;font-weight:500;z-index:8;opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.on{opacity:1;transform:none}
+.rec{margin-left:8px;font-size:0;padding:0;background:none;color:#F2B705;white-space:nowrap}
+.rec::before{content:"★ рекорд";font-size:12px;font-weight:600}
+.pic{display:block;margin:0 0 6px}

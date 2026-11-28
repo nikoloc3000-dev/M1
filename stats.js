@@ -22,12 +22,14 @@ function stats(){
   }
   ["7 дней","Месяц","Всё время"].forEach(function(t,i){var c=el("button","chip",t);c.onclick=function(){period=i;draw()};pc.append(c)});
   draw();f.append(th,pc,box);
+  var pic=el("button","plink pic","Картинка месяца");pic.onclick=savePicture;f.append(pic);
+  var RF=recordFlags();
   if(!notes.length)f.append(el("p","hint","Записей пока нет. Открой день в календаре и добавь упражнения."));
   notes.reverse().forEach(function(x){
     var d=x[0],r=x[1],row=el("div","log"),tile=el("div","tile"+(r.w?" tr":""),d),body=el("div","lbody");
     if(r.c){tile.style.background=r.c;tile.style.color=ink(r.c)}
     body.append(el("div","ldate",WEEKDAYS[new Date(view.y,view.m,d).getDay()]+", "+d+" "+MONTHS_GEN[view.m]+(r.f?" · "+["","легко","нормально","тяжело"][r.f]:"")));
-    (r.ex||[]).forEach(function(e){body.append(el("div","xline",e.n+" · "+e.s+"×"+e.r))});
+    (r.ex||[]).forEach(function(e,ei){var ln=el("div","xline",e.n+" · "+e.s+"×"+e.r),fg=(RF[key(view.y,view.m,d)]||[])[ei];if(fg&&(fg.set||fg.day))ln.append(el("span","rec",fg.set?"рекорд подхода":"рекорд дня"));body.append(ln)});
     if(r.n)body.append(el("p",null,r.n));
     row.style.setProperty("--i",notes.indexOf(x));row.append(tile,body);f.append(row);
   });

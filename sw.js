@@ -1,5 +1,5 @@
-var V="wk-v5";
-var FILES=["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png","base.css","calendar.css","stats.css","sheet.css","profile.css","feel.css","storage.js","core.js","calendar.js","stats.js","sheet.js","profile.js","feel.js","start.js"];
+var V="wk-v6";
+var FILES=["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png","base.css","calendar.css","stats.css","sheet.css","profile.css","feel.css","records.css","storage.js","core.js","calendar.js","stats.js","sheet.js","profile.js","feel.js","records.js","picture.js","start.js"];
 self.addEventListener("install",function(e){
   e.waitUntil(caches.open(V).then(function(c){return c.addAll(FILES.map(function(u){return new Request(u,{cache:"reload"})}))}));
   self.skipWaiting();
